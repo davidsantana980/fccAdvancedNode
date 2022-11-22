@@ -22,6 +22,7 @@ app.use(session({
   saveUninitialized: true,
   cookie: {secure:false}
 }));
+const cors = require('cors')
 app.use(cors())
 
 app.use(passport.initialize(), passport.session());
@@ -37,9 +38,15 @@ myDB(async client => {
 
   let currentUsers = 0;
   io.on('connection', socket => {
-    console.log('A user has connected');
     currentUsers++;
-    io.emit("user count", currentUsers);
+    io.emit('user count', currentUsers);
+    console.log('A user has connected');
+
+    socket.on('disconnect', () => {
+      console.log('A user has disconnected');
+      currentUsers--;
+      io.emit('user count', currentUsers);
+    })
   });
 }).catch(e => {
   app.route('/').get((req, res) => {
