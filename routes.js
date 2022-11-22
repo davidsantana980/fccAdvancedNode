@@ -68,9 +68,16 @@ module.exports = (app, myDataBase) => {
             failureRedirect: "/"
         }),
         (req, res) => {
-            res.redirect("/profile");
+            req.session.user_id = req.user.id;
+            res.redirect("/chat");
         }
     );
+
+    app.get("/chat", ensureAuthenticated, (req, res) => {
+        res.render("chat", {
+            user: req.user
+        })
+    })
   
     app.get("/logout", (req, res) => {
         req.logout();
