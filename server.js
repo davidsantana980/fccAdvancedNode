@@ -22,6 +22,7 @@ app.use(session({
   saveUninitialized: true,
   cookie: {secure:false}
 }));
+app.use(cors())
 
 app.use(passport.initialize(), passport.session());
 
