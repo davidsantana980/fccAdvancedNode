@@ -47,7 +47,7 @@ module.exports = (app, myDataBase) => {
       }, 
       passport.authenticate("local", {failureRedirect: "/"}), (req, res, next) => {
             res.redirect("/profile");
-        }
+      }
     )
 
     app.post("/login",
